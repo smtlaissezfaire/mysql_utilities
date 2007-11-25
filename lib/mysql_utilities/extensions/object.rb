@@ -32,9 +32,7 @@ module MysqlUtilities
 end
 
 class Object  
-  class << self
-    include MysqlUtilities::Extensions::Object::ClassMethods
-  end
+  extend MysqlUtilities::Extensions::Object::ClassMethods
 end
 
 
