@@ -1,7 +1,5 @@
 module MysqlUtilities  
-  module Backup    
-    class EnvironmentError < StandardError; end
-    
+  module Backup
     class Runner
       
       class << self
