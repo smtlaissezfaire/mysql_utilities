@@ -3,6 +3,11 @@
 module MysqlUtilities
   module Extensions
     module ActiveRecord
+      # Extend ActiveRecord with the following code, in environment.rb:
+      #
+      # ActiveRecord::Migration.class_eval do
+      #   extend MysqlUtilities::Extensions::ActiveRecord::MigrationClassMethod
+      # end
       module MigrationClassMethods
         MYSQL_DELIMITER = ";"
         
