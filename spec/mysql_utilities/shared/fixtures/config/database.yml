@@ -1,0 +1,14 @@
+development:
+    adapter: mysql
+    database: project_development
+    encoding: utf8
+    host: localhost
+    username: root
+    password:
+      
+test:
+    adapter: mysql
+    database: project_test
+    host: localhost
+    username: test
+    password: scott

@@ -5,6 +5,8 @@ require 'optparse'
 require 'yaml'
 
 require File.dirname(__FILE__) + "/extensions"
+require File.dirname(__FILE__) + "/shared"
+
 require File.dirname(__FILE__) + "/backup/errors"
 require File.dirname(__FILE__) + "/backup/core_functionality"
 require File.dirname(__FILE__) + "/backup/option_parser"
