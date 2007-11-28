@@ -35,6 +35,31 @@ module MysqlUtilities
           self.should_receive(:execute).with("bar").once
           multi_execute("foo;bar")
         end
+        
+        it "should not run execute if the string is empty" do
+          self.should_not_receive(:execute)
+          multi_execute("")
+        end
+        
+        it "should not run execute if the string contains only a newline" do
+          self.should_not_receive(:execute)
+          multi_execute("\n")
+        end
+        
+        it "should not run execute if the string contains two newlines" do
+          self.should_not_receive(:execute)
+          multi_execute("\n\n")
+        end
+        
+        it "should not run execute if the string contains two tabs" do
+          self.should_not_receive(:execute)
+          multi_execute("\t\t")
+        end
+        
+        it "should not run execute if the string contains a combination of tabs and spaces" do
+          self.should_not_receive(:execute)
+          multi_execute("  \t\t \n \n       \t      \n\n; \t\t\n")
+        end
       end
       
       describe MigrationClassMethods, "execute_from_file" do

@@ -14,7 +14,11 @@ module MysqlUtilities
         def multi_execute(string)
           strings = string.split(";")
           strings.each do |s|
-            execute(s)
+            s.chomp!
+            s.strip!
+            unless s.empty?
+              execute(s)
+            end
           end
         end
         
