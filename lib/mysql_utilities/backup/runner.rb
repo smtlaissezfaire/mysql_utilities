@@ -46,6 +46,14 @@ module MysqlUtilities
       def compression_specified?
         options[:compression] ? true : false
       end
+      
+      def cleanup
+        run "rm -rf #{base_path}/#{dump_filename}"
+      end
+      
+      def dump_filename
+        "#{file_prefix}_#{rails_env}_#{timestamp}.sql"
+      end
 
     private
     
@@ -59,10 +67,6 @@ module MysqlUtilities
     #  
     #private
     #
-    #  def cleanup
-    #    run "rm -rf #{base_path}/#{dump_filename}"
-    #  end
-    #
     #  def compress
     #    add_tar_archive
     #    compress_tar_archive
@@ -74,10 +78,6 @@ module MysqlUtilities
     #
     #  def compress_tar_archive
     #    run "gzip #{base_path}/#{dump_filename}.tar"
-    #  end
-    #
-    #  def dump_filename
-    #    "urbis_#{rails_env}_#{timestamp}.sql"
     #  end
     #
     #  def complete_dump_command

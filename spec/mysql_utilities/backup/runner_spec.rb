@@ -142,13 +142,44 @@ module MysqlUtilities
     
     describe "Runner's compression" do
       before :each do
+        @runner = Runner.new({:environment => "foo", :compress => true})
+        @runner.stub!(:dump_command)
       end
       
       it "should create the tar archive" do
-        pending "TODO" do
-          @dump_filename = @runner.dump_filename
-          @runner.should_receive(:run_command).with("tar -cf $PATH/#{@dump_filename}.tar $PATH/#{@dump_filename}")
-        end
+        pending 'TODO'
+        @dump_filename = @runner.dump_filename
+        @runner.should_receive(:run_command).with("tar -cf $PATH/#{@dump_filename}.tar $PATH/#{@dump_filename}")
+      end
+    end
+    
+    describe Runner, "'s dump command" do
+      it "should return the full mysqldump command"
+    end
+    
+    describe Runner, "'s cleanup" do
+      before :each do
+        @runner = Runner.new({:environment => "foo"})
+        @runner.stub!(:base_path).and_return "/foo/bar"
+        @runner.stub!(:dump_filename).and_return "baz"
+        @runner.stub!(:run)
+      end
+      
+      it "should remove the file created from base_path/filename" do
+        @runner.should_receive(:run).with("rm -rf /foo/bar/baz")
+        @runner.cleanup
+      end
+    end
+    
+    describe Runner, "'s dump_filename" do
+      before :each do
+        @time = Time.now
+        Time.stub!(:now).and_return @time
+        @runner = Runner.new({:environment => "foo", :file_prefix => "urbis"})
+      end
+      
+      it "returns file_prefix_rails_env_timestamp.sql" do
+        @runner.dump_filename.should == "urbis_foo_#{@time.strftime("%Y-%m-%d-%H-%M-%S")}.sql"
       end
     end
     
