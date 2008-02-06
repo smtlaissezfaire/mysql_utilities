@@ -147,8 +147,16 @@ module MysqlUtilities
       end
     end
     
-    describe Runner, "'s dump command" do
-      it "should return the full mysqldump command"
+    describe Runner, "'s run" do
+      before :each do
+        @runner = Runner.new(:environment => "developemnt", :compress => false)
+        @runner.stub!(:run_command).and_return nil
+      end
+      
+      it "should run the dump command" do
+        @runner.should_receive(:run_command).with("mysqldump")
+        @runner.run_program
+      end
     end
     
     describe Runner, "'s Compression" do
@@ -156,17 +164,18 @@ module MysqlUtilities
         @runner = Runner.new({:environment => "foo", :compress => true, :file_prefix => "project_name"})
         @formatted_now = Time.now.strftime("%Y-%m-%d")
         @runner.stub!(:timestamp).and_return @formatted_now
+        @runner.stub!(:run_command).and_return nil
       end
       
       it "should compress the archive with gzip -9" do
         @runner.stub!(:dump_filename).and_return "foo_bar.sql"
         
-        @runner.should_receive(:run).with("gzip -9 $PATH/foo_bar.sql")
+        @runner.should_receive(:run_command).with("gzip -9 $PATH/foo_bar.sql")
         @runner.compress
       end
       
       it "should compress the archive with gzip -9 as file_prefix_rails_env_timestamp.sql" do
-        @runner.should_receive(:run).with("gzip -9 $PATH/project_name_foo_#{@formatted_now}.sql")
+        @runner.should_receive(:run_command).with("gzip -9 $PATH/project_name_foo_#{@formatted_now}.sql")
         @runner.compress
       end
     end

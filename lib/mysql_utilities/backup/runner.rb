@@ -36,7 +36,7 @@ module MysqlUtilities
       end
       
       def run_program
-        run_command(dump_command)
+        run_command dump_command
         if compression_specified?
           compress
         end        
@@ -51,13 +51,17 @@ module MysqlUtilities
       end
       
       def compress
-        run "gzip -9 #{base_path}/#{dump_filename}"
+        run_command "gzip -9 #{base_path}/#{dump_filename}"
       end
 
     private
     
       def environment_exists?
         @environment ? true : false
+      end
+      
+      def dump_command
+        "mysqldump"
       end
       
     end
