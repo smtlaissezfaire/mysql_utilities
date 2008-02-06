@@ -84,4 +84,10 @@ describe Object, "'s lazy_attr_accessor" do
     @klass.should_receive(:lazy_attr_writer).with(:arg1)
     @klass.lazy_attr_accessor(:arg1)
   end
+  
+  it "should create a new lazy_attr_reader with the block given" do
+    @klass.lazy_attr_accessor(:arg1) { 7 }
+    @klass.new.arg1.should == 7
+  end
+  
 end

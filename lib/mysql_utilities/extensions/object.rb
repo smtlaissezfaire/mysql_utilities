@@ -31,8 +31,8 @@ module MysqlUtilities
           attr_writer *args
         end
         
-        def lazy_attr_accessor(*args)
-          lazy_attr_reader(*args)
+        def lazy_attr_accessor(*args, &blk)
+          lazy_attr_reader(*args, &blk)
           lazy_attr_writer(*args)
         end
       end      
