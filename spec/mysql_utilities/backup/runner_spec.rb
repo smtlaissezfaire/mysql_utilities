@@ -151,11 +151,27 @@ module MysqlUtilities
       before :each do
         @runner = Runner.new(:environment => "developemnt", :compress => false)
         @runner.stub!(:run_command).and_return nil
+        @runner.mysql_database = "foo_dev"
+        @runner.mysql_password = "crap_password"
+        @runner.mysql_host = "localhost"
+        @runner.mysql_user = "scott"
+      end
+      
+      def mysql_dump_string
+        <<-HERE 
+          /usr/bin/env mysqldump --user scott.*
+                        --password=crap_password.*
+                        --host localhost.*
+                        --single-transaction > $HOME/development.sql.*
+        HERE
+                          
       end
       
       it "should run the dump command" do
-        @runner.should_receive(:run_command).with("mysqldump")
-        @runner.run_program
+        pending 'FIXME'
+        regexp = Regexp.new(mysql_dump_string, Regexp::EXTENDED)
+        @runner.should_receive(:run_command).with(regexp)
+        @runner.run_program          
       end
     end
     

@@ -18,10 +18,10 @@ module MysqlUtilities
         raise EnvironmentError, "The rails environment specified cannot be found" unless environment_exists?
       end
 
-      lazy_attr_reader(:mysql_database) { database[rails_env]["database"] }      
-      lazy_attr_reader(:mysql_host)     { database[rails_env]["host"]}
-      lazy_attr_reader(:mysql_user)     { database[rails_env]["username"] }
-      lazy_attr_reader(:mysql_password) { database[rails_env]["password"]}
+      lazy_attr_accessor(:mysql_database) { database[rails_env]["database"] }      
+      lazy_attr_accessor(:mysql_host)     { database[rails_env]["host"]}
+      lazy_attr_accessor(:mysql_user)     { database[rails_env]["username"] }
+      lazy_attr_accessor(:mysql_password) { database[rails_env]["password"]}
       
       lazy_attr_reader(:timestamp) { Time.now.strftime("%Y-%m-%d-%H-%M-%S") }
       lazy_attr_reader :mysql_dump, "/usr/bin/env mysqldump"
@@ -61,25 +61,15 @@ module MysqlUtilities
       end
       
       def dump_command
-        "mysqldump"
+        <<-HERE 
+          #{mysql_dump} --user #{mysql_user} 
+                        --password=#{mysql_password}                         
+                        --host #{mysql_host} 
+                        --single-transaction > #{base_path}/#{dump_filename}
+        HERE
       end
+
       
     end
-    
-    #class Runner
-    #  
-    #private
-    #
-    #  def complete_dump_command
-    #    <<-HERE 
-    #      #{mysql_dump} --user #{mysql_user} 
-    #                    --password=#{mysql_password} 
-    #                    project_name_#{rails_env} 
-    #                    --host #{mysql_host} 
-    #                    --single-transaction > #{base_path}/#{dump_filename}
-    #    HERE
-    #  end
-    #
-    #end    
   end  
 end
