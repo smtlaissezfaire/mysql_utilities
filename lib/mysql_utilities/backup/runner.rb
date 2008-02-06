@@ -54,6 +54,10 @@ module MysqlUtilities
       def dump_filename
         "#{file_prefix}_#{rails_env}_#{timestamp}.sql"
       end
+      
+      def compress
+        run "gzip -9 #{base_path}/#{dump_filename}"
+      end
 
     private
     
@@ -66,19 +70,6 @@ module MysqlUtilities
     #class Runner
     #  
     #private
-    #
-    #  def compress
-    #    add_tar_archive
-    #    compress_tar_archive
-    #  end
-    #
-    #  def add_tar_archive
-    #    run "tar -cf #{base_path}/#{dump_filename}.tar #{base_path}/#{dump_filename}"
-    #  end
-    #
-    #  def compress_tar_archive
-    #    run "gzip #{base_path}/#{dump_filename}.tar"
-    #  end
     #
     #  def complete_dump_command
     #    <<-HERE 
