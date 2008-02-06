@@ -26,6 +26,15 @@ module MysqlUtilities
             value ||= default_block ? instance_eval(&default_block) : default_value
           end
         end
+        
+        def lazy_attr_writer(*args)
+          attr_writer *args
+        end
+        
+        def lazy_attr_accessor(*args)
+          lazy_attr_reader(*args)
+          lazy_attr_writer(*args)
+        end
       end      
     end
   end

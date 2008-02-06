@@ -42,8 +42,46 @@ describe Object do
   it "should raise an error if both are specified" do
     lambda { 
       @klass.lazy_attr_reader(:foo, :bar) { :baz }
-    }.should raise_error(ArgumentError, "lazy_attr_reader cannot take two default values")
-    
+    }.should raise_error(ArgumentError, "lazy_attr_reader cannot take two default values")    
+  end
+end
+
+describe Object, "'s lazy_attr_writer" do
+  before :each do
+    @klass = Class.new
+  end
+  
+  it "should create an writer for the method given" do
+    @klass.lazy_attr_writer(:foo)
+    @klass.new.should respond_to(:foo=)
+  end
+  
+  it "should create a writer for multiple methods given" do
+    @klass.lazy_attr_writer(:foo, :bar)
+    @klass.new.should respond_to(:foo=)
+    @klass.new.should respond_to(:bar=)
+  end
+  
+  it "should change the instance variable when it is written to" do
+    @klass.lazy_attr_writer(:foo)
+    @instance = @klass.new
+    @instance.foo = 7
+    @instance.instance_variable_get("@foo").should == 7
+  end
+end
+
+describe Object, "'s lazy_attr_accessor" do
+  before :each do
+    @klass = Class.new
+  end
+  
+  it "should create a new lazy_attr_reader" do
+    @klass.should_receive(:lazy_attr_reader).with(:arg1, :arg2)
+    @klass.lazy_attr_accessor(:arg1, :arg2)
   end
 
+  it "should create a new lazy_attr_writer" do
+    @klass.should_receive(:lazy_attr_writer).with(:arg1)
+    @klass.lazy_attr_accessor(:arg1)
+  end
 end
