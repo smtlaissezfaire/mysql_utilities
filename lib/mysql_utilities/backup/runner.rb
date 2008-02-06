@@ -84,7 +84,7 @@ module MysqlUtilities
     #    <<-HERE 
     #      #{mysql_dump} --user #{mysql_user} 
     #                    --password=#{mysql_password} 
-    #                    urbis_#{rails_env} 
+    #                    project_name_#{rails_env} 
     #                    --host #{mysql_host} 
     #                    --single-transaction > #{base_path}/#{dump_filename}
     #    HERE

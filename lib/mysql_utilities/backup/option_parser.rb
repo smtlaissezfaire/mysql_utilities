@@ -8,7 +8,7 @@ module MysqlUtilities
         @options = OpenStruct.new
         
         self.banner = "Usage: script/database/backup [options]"
-        on("-e", "--environment [RAILS_ENV]", "Specify the environment to backup - Assumes the database is named urbis_\#\{RAILS_ENV\}") { |e| @options.environment = e }
+        on("-e", "--environment [RAILS_ENV]", "Specify the environment to backup - Assumes the database is named project_name_\#\{RAILS_ENV\}") { |e| @options.environment = e }
         on("-t", "--tarball", "Create a tarball") { |t| @options.tarball = t }
         on("-v", "--version", "Version") { @options.version = MysqlUtilities::Backup::Version.to_s }
         on("-h", "--help") { @options.help = true }

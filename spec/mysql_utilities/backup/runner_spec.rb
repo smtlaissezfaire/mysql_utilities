@@ -134,9 +134,9 @@ module MysqlUtilities
     end
     
     describe "A Runner's file prefix" do
-      it "should be urbis, with option :file_prefix => 'urbis'" do
-        runner = Runner.new(:environment => "foo", :file_prefix => "urbis")
-        runner.file_prefix.should == 'urbis'
+      it "should be bar, with option :file_prefix => 'bar'" do
+        runner = Runner.new(:environment => "foo", :file_prefix => "bar")
+        runner.file_prefix.should == 'bar'
       end
     end
     
@@ -175,11 +175,11 @@ module MysqlUtilities
       before :each do
         @time = Time.now
         Time.stub!(:now).and_return @time
-        @runner = Runner.new({:environment => "foo", :file_prefix => "urbis"})
+        @runner = Runner.new({:environment => "foo", :file_prefix => "bar"})
       end
       
       it "returns file_prefix_rails_env_timestamp.sql" do
-        @runner.dump_filename.should == "urbis_foo_#{@time.strftime("%Y-%m-%d-%H-%M-%S")}.sql"
+        @runner.dump_filename.should == "bar_foo_#{@time.strftime("%Y-%m-%d-%H-%M-%S")}.sql"
       end
     end
     

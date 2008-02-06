@@ -10,8 +10,8 @@ module MysqlUtilities
       end
       
       it "should be able to able to spit out RAILS_ROOT" do
-        Object.const_set(:RAILS_ROOT, "/usr/local/urbis")
-        rails_root.should == "/usr/local/urbis"
+        Object.const_set(:RAILS_ROOT, "/usr/local/foo")
+        rails_root.should == "/usr/local/foo"
       end      
       
       it "should be able to spit out RAILS_ROOT" do
