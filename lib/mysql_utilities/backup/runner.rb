@@ -39,16 +39,11 @@ module MysqlUtilities
         run_command(dump_command)
         if compression_specified?
           compress
-          cleanup
         end        
       end
       
       def compression_specified?
         options[:compression] ? true : false
-      end
-      
-      def cleanup
-        run "rm -rf #{base_path}/#{dump_filename}"
       end
       
       def dump_filename

@@ -107,7 +107,6 @@ module MysqlUtilities
         @runner.stub!(:run_command).and_return nil
         @runner.stub!(:dump_command).and_return "dump command"
         @runner.stub!(:compress).and_return nil
-        @runner.stub!(:cleanup).and_return nil
       end
       
       it_should_behave_like "a backup run"
@@ -119,12 +118,7 @@ module MysqlUtilities
       it "should compress the backup" do
         @runner.should_receive(:compress).and_return nil
         @runner.run_program
-      end
-      
-      it "should cleanup the backup" do
-        @runner.should_receive(:cleanup).and_return nil
-        @runner.run_program
-      end
+      end      
     end
 
     describe "A Runner instance" do
@@ -181,20 +175,6 @@ module MysqlUtilities
       it "should be set at initialization" do
         runner = Runner.new(:environment => "foo", :file_prefix => "baz_quxx")
         runner.file_prefix.should == "baz_quxx"
-      end
-    end
-    
-    describe Runner, "'s cleanup" do
-      before :each do
-        @runner = Runner.new({:environment => "foo"})
-        @runner.stub!(:base_path).and_return "/foo/bar"
-        @runner.stub!(:dump_filename).and_return "baz"
-        @runner.stub!(:run)
-      end
-      
-      it "should remove the file created from base_path/filename" do
-        @runner.should_receive(:run).with("rm -rf /foo/bar/baz")
-        @runner.cleanup
       end
     end
     
